@@ -6,7 +6,7 @@ use terminal_size::{terminal_size, Width, Height};
 use ctrlc;
 use colorgrad::Gradient;
 
-const TEMPS: Duration = Duration::from_millis(700); // Default 70
+const TEMPS: Duration = Duration::from_millis(0); // Default 70
 
 #[derive(Clone, Debug)]
 struct Matrice<T> {
@@ -92,10 +92,8 @@ fn tempsp1 (mat:&mut Matrice<u8>) -> () {
             }
             for i in 0..mat.nb_state {
                 // println!("s: {} - nbcell: {:?} - i: {} - mod: {}", mat.nb_state, nbcell, i, ((i + 1) % (mat.nb_state)) as usize);
-                if tmp[(x,y)] == i  && nbcell[i as usize] < 2 || nbcell[i as usize] > 3 {
-                    mat[(x,y)] = 0
-                } else if tmp[(x,y)] != i && nbcell[i as usize] == 3 {
-                    mat[(x,y)] = i
+                if tmp[(x,y)] == i  && nbcell[((i + 1) % (mat.nb_state)) as usize] >= 3 {
+                    mat[(x,y)] = (i + 1) % mat.nb_state 
                 }
             }
         }
